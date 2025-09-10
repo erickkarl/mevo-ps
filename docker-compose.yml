@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres
-    container_name: postgres
+    container_name: postgres_mevo
     restart: always
     ports:
       - '5432:5432'
@@ -13,6 +13,16 @@ services:
       - .env
     volumes:
       - pg_data:/var/lib/postgresql/data
-
+  redis:
+    image: redis
+    container_name: redis_mevo
+    restart: always
+    ports:
+      - '6379:6379'
+    env_file:
+      - .env
+    volumes:
+      - redis_data:/data
 volumes:
   pg_data:
+  redis_data:
