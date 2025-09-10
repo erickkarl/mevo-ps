@@ -41,11 +41,12 @@ model PrescriptionError {
   id String @id @default(uuid())
   prescription_processing_id String
   prescription_processing PrescriptionProcessing @relation(fields: [prescription_processing_id], references: [id])
-  
+
   line Int
   field String
   message String
   value String
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
@@ -62,8 +63,13 @@ model PrescriptionProcessing {
   total_records Int
   processed_records Int
   valid_records Int
+
+  // Relacionamentos entre erros e prescrições
   prescription_errors PrescriptionError[]
   prescription Prescription[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 
