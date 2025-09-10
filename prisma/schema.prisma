@@ -13,3 +13,58 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// Como o projeto é simples criarei todos os modelos no mesmo arquivo
+/* Decidi criar uma tabela adicional para armazenar os erros, levando em consideração que podem ser múltiplos
+  e por ter uma estrutura mais fácil de alterar, caso seja necessário */
+model Prescription {
+  id String @id @default(uuid())
+  prescription_processing_id String
+  prescription_processing PrescriptionProcessing @relation(fields: [prescription_processing_id], references: [id])
+
+  date DateTime
+  patient_cpf String @db.VarChar(11)
+  doctor_crm String
+  doctor_uf String @db.VarChar(2)
+  medication String
+  controlled Boolean
+  dosage String
+  days Int @db.SmallInt
+  duration Int @db.SmallInt
+  notes String
+  // Adicionei para ter mais controle sobre os dados e um histórico
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model PrescriptionError {
+  id String @id @default(uuid())
+  prescription_processing_id String
+  prescription_processing PrescriptionProcessing @relation(fields: [prescription_processing_id], references: [id])
+  
+  line Int
+  field String
+  message String
+  value String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+enum PrescriptionProcessingStatus {
+  processing
+  completed
+  failed
+}
+
+model PrescriptionProcessing {
+  id String @id @default(uuid())
+  status PrescriptionProcessingStatus @default(processing)
+  total_records Int
+  processed_records Int
+  valid_records Int
+  prescription_errors PrescriptionError[]
+  prescription Prescription[]
+}
+
+
+
