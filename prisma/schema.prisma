@@ -14,7 +14,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Como o projeto é simples criarei todos os modelos no mesmo arquivo
+// Como o projeto é simples e só temos um serviço, criarei todos os modelos no mesmo arquivo
+
 /* Decidi criar uma tabela adicional para armazenar os erros, levando em consideração que podem ser múltiplos
   e por ter uma estrutura mais fácil de alterar, caso seja necessário */
 model Prescription {
@@ -24,6 +25,7 @@ model Prescription {
 
   date DateTime
   patient_cpf String @db.VarChar(11)
+  // Apesar de ser um número, coloquei como string para que consigamos fazer queries de like no futuro
   doctor_crm String
   doctor_uf String @db.VarChar(2)
   medication String

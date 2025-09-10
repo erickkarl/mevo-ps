@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
+import { BullModule } from '@nestjs/bullmq';
+
 import { PrescriptionController } from './prescription.controller';
 import { PrescriptionService } from './prescription.service';
-import { BullModule } from '@nestjs/bullmq';
+import { PrescriptionProcessor } from './prescription.processor';
 
 @Module({
   imports: [
@@ -12,6 +14,6 @@ import { BullModule } from '@nestjs/bullmq';
     }),
   ],
   controllers: [PrescriptionController],
-  providers: [PrescriptionService],
+  providers: [PrescriptionService, PrescriptionProcessor],
 })
 export class PrescriptionModule {}
