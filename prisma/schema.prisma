@@ -19,7 +19,7 @@ datasource db {
 /* Decidi criar uma tabela adicional para armazenar os erros, levando em consideração que podem ser múltiplos
   e por ter uma estrutura mais fácil de alterar, caso seja necessário */
 model Prescription {
-  id String @id @default(uuid())
+  id String @id
   prescription_processing_id String
   prescription_processing PrescriptionProcessing @relation(fields: [prescription_processing_id], references: [id])
 
