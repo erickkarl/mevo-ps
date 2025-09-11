@@ -4,6 +4,8 @@ import { BullModule } from '@nestjs/bullmq';
 import { PrescriptionController } from './prescription.controller';
 import { PrescriptionService } from './prescription.service';
 import { PrescriptionProcessor } from './prescription.processor';
+import { PrismaModule } from 'src/prisma/prisma.module';
+import { PrescriptionProcessingRepository } from './repositories/prescription-processing.repository';
 
 @Module({
   imports: [
@@ -12,8 +14,13 @@ import { PrescriptionProcessor } from './prescription.processor';
     BullModule.registerQueue({
       name: 'prescription',
     }),
+    PrismaModule,
   ],
   controllers: [PrescriptionController],
-  providers: [PrescriptionService, PrescriptionProcessor],
+  providers: [
+    PrescriptionService,
+    PrescriptionProcessor,
+    PrescriptionProcessingRepository,
+  ],
 })
 export class PrescriptionModule {}
